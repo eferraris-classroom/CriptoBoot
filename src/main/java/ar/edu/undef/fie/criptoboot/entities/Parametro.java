@@ -1,22 +1,21 @@
 package ar.edu.undef.fie.criptoboot.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Parametro {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
-    private long idUser;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "parametro_id")
+    private Usuario usuario;
     private double ganPorOp;
     private double perPorOp;
     private double variacionEstrCaidas;
 
-    public Parametro(long idUser, double ganPorOp, double perPorOp, double variacionEstrCaidas) {
-        this.idUser = idUser;
+    public Parametro(Usuario usuario, double ganPorOp, double perPorOp, double variacionEstrCaidas) {
+        this.usuario = usuario;
         this.ganPorOp = ganPorOp;
         this.perPorOp = perPorOp;
         this.variacionEstrCaidas = variacionEstrCaidas;
@@ -30,12 +29,12 @@ public class Parametro {
         this.id = id;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public double getGanPorOp() {

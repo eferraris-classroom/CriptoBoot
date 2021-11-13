@@ -1,17 +1,16 @@
 package ar.edu.undef.fie.criptoboot.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
 public class OpEnCurso {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
-    private long idUser;
+    private int id;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "opEnCurso_id")
+    private Usuario usuario;
     private String idCriptoHist;
     private double cantCriptomoneda;
     private Double balanceOp;
@@ -23,34 +22,34 @@ public class OpEnCurso {
     private Double precioFinalizacionPerdida;
     private Boolean activa;
 
-    public OpEnCurso(long idUser, String idCriptoHist, double cantCriptomoneda, Double balanceOp, Double balancePorcentual, Calendar fechaHoraFin, Double precioInicio, Double precioFinalizacionGanancia, Double precioFinalizacionPerdida) {
-        this.idUser = idUser;
+    public OpEnCurso(Usuario usuario, String idCriptoHist, double cantCriptomoneda, Double balanceOp, Double balancePorcentual, Calendar fechaHoraInicio, Calendar fechaHoraFin, Double precioInicio, Double precioFinalizacionGanancia, Double precioFinalizacionPerdida, Boolean activa) {
+        this.usuario = usuario;
         this.idCriptoHist = idCriptoHist;
         this.cantCriptomoneda = cantCriptomoneda;
         this.balanceOp = balanceOp;
         this.balancePorcentual = balancePorcentual;
-        this.fechaHoraInicio=Calendar.getInstance();
+        this.fechaHoraInicio = fechaHoraInicio;
         this.fechaHoraFin = fechaHoraFin;
         this.precioInicio = precioInicio;
         this.precioFinalizacionGanancia = precioFinalizacionGanancia;
         this.precioFinalizacionPerdida = precioFinalizacionPerdida;
-        this.activa = true;
+        this.activa = activa;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getIdCriptoHist() {

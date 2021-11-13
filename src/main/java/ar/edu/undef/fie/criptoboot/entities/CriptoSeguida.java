@@ -1,29 +1,28 @@
 package ar.edu.undef.fie.criptoboot.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class CriptoSeguida {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String idCripto;
-    private Long idUser;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "criptoSeguida_id")
+    private Usuario usuario;
 
-    public CriptoSeguida(String idCripto, Long idUser) {
+    public CriptoSeguida(String idCripto, Usuario usuario) {
         this.idCripto = idCripto;
-        this.idUser = idUser;
+        this.usuario = usuario;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -35,11 +34,11 @@ public class CriptoSeguida {
         this.idCripto = idCripto;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
