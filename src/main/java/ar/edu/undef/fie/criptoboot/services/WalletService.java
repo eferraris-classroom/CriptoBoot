@@ -1,11 +1,11 @@
 package ar.edu.undef.fie.criptoboot.services;
 
 import ar.edu.undef.fie.criptoboot.entities.Wallet;
+import ar.edu.undef.fie.criptoboot.requests.WalletRequest;
 
 public interface WalletService {
     Wallet getWallet(int idUser);
 
-    void modificarWallet(Wallet wallet);
+    Wallet modificarWallet(Wallet wallet);
 
-    void cargarDisponible(Wallet wallet);
 }

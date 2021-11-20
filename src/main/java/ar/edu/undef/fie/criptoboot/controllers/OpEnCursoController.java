@@ -1,12 +1,16 @@
 package ar.edu.undef.fie.criptoboot.controllers;
 
+
 import ar.edu.undef.fie.criptoboot.entities.OpEnCurso;
+import ar.edu.undef.fie.criptoboot.representations.OpEnCursoRepresentation;
 import ar.edu.undef.fie.criptoboot.services.OpEnCursoService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class OpEnCursoController {
@@ -18,13 +22,20 @@ public class OpEnCursoController {
         this.opEnCursoService = opEnCursoService;
     }
 
-    @RequestMapping(value = "usuarios/{idUser}/OpEnCurso")
-    public List<OpEnCurso> getOperaciones(@PathVariable int idUser) {
-        return opEnCursoService.getOperaciones(idUser);
+    @GetMapping(value = "usuarios/{idUser}/OpEnCurso")
+    public ResponseEntity<List<OpEnCursoRepresentation>> getOperaciones(@PathVariable int idUser) {
+        return ResponseEntity.ok(opEnCursoService.getOperaciones(idUser)
+                .stream()
+                .map(OpEnCurso::representation).
+                collect(Collectors.toList()));
     }
 
-    @RequestMapping(value = "usuarios/{idUser}/OpEnCursoActivas")
-    public List<OpEnCurso> getOperacionesActivas(@PathVariable int idUser) {
-        return opEnCursoService.getOperacionesActivas(idUser);
+    @GetMapping(value = "usuarios/{idUser}/OpEnCursoActivas")
+    public ResponseEntity<List<OpEnCursoRepresentation>> getOperacionesActivas(@PathVariable int idUser) {
+        return ResponseEntity.ok(opEnCursoService.getOperacionesActivas(idUser)
+                .stream()
+                .map(OpEnCurso::representation).
+                collect(Collectors.toList()));
     }
+
 }

@@ -1,8 +1,14 @@
 package ar.edu.undef.fie.criptoboot.controllers;
 
 import ar.edu.undef.fie.criptoboot.entities.Usuario;
+import ar.edu.undef.fie.criptoboot.representations.ParametroRepresentation;
+import ar.edu.undef.fie.criptoboot.representations.UsuarioRepresentation;
+import ar.edu.undef.fie.criptoboot.requests.UsuarioRequest;
 import ar.edu.undef.fie.criptoboot.services.UsuarioService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,18 +22,22 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @RequestMapping(value = "api/usuarios", method = RequestMethod.GET)
-    public List<Usuario> getUsuarios() {
-        return usuarioService.getUsuarios();
+    @GetMapping(value = "usuarios/{idUser}")
+    public ResponseEntity<UsuarioRepresentation> getUsuario(@PathVariable int idUser) {
+        return ResponseEntity.ok(usuarioService.getUsuario(idUser).representation());
     }
 
-    @RequestMapping(value = "api/usuarios", method = RequestMethod.POST)
-    public void registrarUsuario(@RequestBody Usuario usuario) {
-        usuarioService.registrar(usuario);
+    @PostMapping(value = "usuarios")
+    public ResponseEntity<UsuarioRepresentation> registrarUsuario(@RequestBody UsuarioRequest usuarioRequest) {
+        return ResponseEntity.ok(usuarioService.registrar(usuarioRequest.construct()).representation());
     }
 
-    @RequestMapping(value = "api/usuarios/{idUser}", method = RequestMethod.DELETE)
-    public void eliminar(@PathVariable int idUser) {
+
+    @DeleteMapping(value = "usuarios/{idUser}")
+    public  ResponseEntity<String> eliminarUsuario(@PathVariable int idUser) throws NotFoundException {
         usuarioService.eliminar(idUser);
+        return new ResponseEntity<>(
+                "Usuario eliminado con éxito",
+                HttpStatus.OK);
     }
 }

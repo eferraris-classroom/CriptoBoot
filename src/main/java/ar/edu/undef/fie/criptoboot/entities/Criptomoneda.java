@@ -1,9 +1,8 @@
 package ar.edu.undef.fie.criptoboot.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import ar.edu.undef.fie.criptoboot.representations.CriptomonedaRepresentation;
+
+import javax.persistence.*;
 
 @Entity
 public class Criptomoneda {
@@ -11,19 +10,23 @@ public class Criptomoneda {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String symbol;
-    private String idCripto;
-    private double currentPrice;
-    private long marketCapRank;
-    private double totalVolume;
-    private double priceChangePercentage24h;
+    private String id_cripto;
+    private double current_price;
+    private long market_cap_rank;
+    private double total_volume;
+    private double price_change_percentage24h;
 
-    public Criptomoneda(String symbol, String idCripto, double currentPrice, long marketCapRank, double totalVolume, double priceChangePercentage24h) {
+    public Criptomoneda(){
+
+    }
+
+    public Criptomoneda(String symbol, String id_cripto, double current_price, long marketCapRank, double totalVolume, double price_change_percentage24h) {
         this.symbol = symbol;
-        this.idCripto = idCripto;
-        this.currentPrice = currentPrice;
-        this.marketCapRank = marketCapRank;
-        this.totalVolume = totalVolume;
-        this.priceChangePercentage24h = priceChangePercentage24h;
+        this.id_cripto = id_cripto;
+        this.current_price = current_price;
+        this.market_cap_rank = marketCapRank;
+        this.total_volume = totalVolume;
+        this.price_change_percentage24h = price_change_percentage24h;
     }
 
     public Long getId() {
@@ -42,43 +45,47 @@ public class Criptomoneda {
         this.symbol = symbol;
     }
 
-    public String getIdCripto() {
-        return idCripto;
+    public String getId_cripto() {
+        return id_cripto;
     }
 
-    public void setIdCripto(String idCripto) {
-        this.idCripto = idCripto;
+    public void setId_cripto(String idCripto) {
+        this.id_cripto = idCripto;
     }
 
-    public double getCurrentPrice() {
-        return currentPrice;
+    public double getCurrent_price() {
+        return current_price;
     }
 
-    public void setCurrentPrice(double currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setCurrent_price(double currentPrice) {
+        this.current_price = currentPrice;
     }
 
-    public long getMarketCapRank() {
-        return marketCapRank;
+    public long getMarket_cap_rank() {
+        return market_cap_rank;
     }
 
-    public void setMarketCapRank(long marketCapRank) {
-        this.marketCapRank = marketCapRank;
+    public void setMarket_cap_rank(long marketCapRank) {
+        this.market_cap_rank = marketCapRank;
     }
 
-    public double getTotalVolume() {
-        return totalVolume;
+    public double getTotal_volume() {
+        return total_volume;
     }
 
-    public void setTotalVolume(double totalVolume) {
-        this.totalVolume = totalVolume;
+    public void setTotal_volume(double totalVolume) {
+        this.total_volume = totalVolume;
     }
 
-    public double getPriceChangePercentage24h() {
-        return priceChangePercentage24h;
+    public double getPrice_change_percentage24h() {
+        return price_change_percentage24h;
     }
 
-    public void setPriceChangePercentage24h(double priceChangePercentage24h) {
-        this.priceChangePercentage24h = priceChangePercentage24h;
+    public void setPrice_change_percentage24h(double priceChangePercentage24h) {
+        this.price_change_percentage24h = priceChangePercentage24h;
+    }
+
+    public CriptomonedaRepresentation representation() {
+        return new CriptomonedaRepresentation(id,symbol,id_cripto,current_price,market_cap_rank,total_volume,price_change_percentage24h);
     }
 }

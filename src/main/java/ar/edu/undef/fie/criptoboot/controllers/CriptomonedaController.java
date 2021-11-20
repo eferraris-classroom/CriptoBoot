@@ -4,10 +4,10 @@ import ar.edu.undef.fie.criptoboot.entities.Criptomoneda;
 import ar.edu.undef.fie.criptoboot.representations.CriptomonedaRepresentation;
 import ar.edu.undef.fie.criptoboot.services.CriptomonedaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CriptomonedaController {
@@ -18,11 +18,12 @@ public class CriptomonedaController {
         this.criptomonedaService = criptomonedaService;
     }
 
-    @RequestMapping(value = "usuarios/{idUser}/criptomonedas")
-    public ResponseEntity<CriptomonedaRepresentation> getCriptomonedas(@PathVariable int idUser) {
-        //Como debería hacer?
-        //return ResponseEntity.ok(criptomonedaService.getCriptomonedas(idUser).stream().map(Criptomoneda::representation).collect()
-        return null;
+    @GetMapping(value = "criptomonedas")
+    public ResponseEntity<List<CriptomonedaRepresentation>> getCriptomonedas() {
+        return ResponseEntity.ok(criptomonedaService.getCriptomonedas()
+                .stream()
+                .map(Criptomoneda::representation).
+                collect(Collectors.toList()));
 
     }
 

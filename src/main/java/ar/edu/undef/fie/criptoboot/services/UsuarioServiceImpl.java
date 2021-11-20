@@ -17,8 +17,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
     @Override
-    public List<Usuario> getUsuarios() {
-        return usuarioRepository.findAll();
+    public Usuario getUsuario(int idUser) {
+        return usuarioRepository.findById(idUser).get();
     }
 
     @Override
@@ -27,8 +27,8 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public void registrar(Usuario usuario) {
-        usuarioRepository.save(usuario);
+    public Usuario registrar(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     @Override

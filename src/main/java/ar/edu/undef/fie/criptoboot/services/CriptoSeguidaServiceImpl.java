@@ -2,6 +2,7 @@ package ar.edu.undef.fie.criptoboot.services;
 
 import ar.edu.undef.fie.criptoboot.entities.CriptoSeguida;
 import ar.edu.undef.fie.criptoboot.repositories.CriptoSeguidaRepository;
+import ar.edu.undef.fie.criptoboot.requests.CriptoSeguidaRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,17 +18,16 @@ public class CriptoSeguidaServiceImpl implements CriptoSeguidaService{
 
     @Override
     public List<CriptoSeguida> getCriptosSeguidas(int idUser) {
-        //Cómo logro buscar todos los valores para un usuario?
-        return null;
+        return criptoSeguidaRepository.findByUsuarioId(idUser);
     }
 
     @Override
-    public void agregarCriptoSeguida(int userId, String symbol) {
-        //Cómo agrego un elemento segun el id del usuario (clave foranea)?
+    public CriptoSeguida agregarCriptoSeguida(CriptoSeguidaRequest criptoSeguidaRequest) {
+        return criptoSeguidaRepository.save( criptoSeguidaRequest.construct());
     }
 
     @Override
-    public void quitarCriptoSeguida(int userId, String symbol) {
-        //Cómo quito un elemento segun el id del usuario (clave foranea)?
+    public void quitarCriptoSeguida(int idCriptoSeguida) {
+        criptoSeguidaRepository.deleteById(idCriptoSeguida);
     }
 }

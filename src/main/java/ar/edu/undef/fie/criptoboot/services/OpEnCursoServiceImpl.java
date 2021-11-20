@@ -18,14 +18,12 @@ public class OpEnCursoServiceImpl implements OpEnCursoService{
 
     @Override
     public List<OpEnCurso> getOperaciones(int idUser) {
-        //Cómo busco la lista segun una clave foránea
-        return null;
+        return opEnCursoRepository.findByUsuarioId(idUser);
     }
 
     @Override
     public List<OpEnCurso> getOperacionesActivas(int idUser) {
-        //Cómo busco la lista segun una clave foránea y según un atributo (opEnCurso.estado = true)
-        return null;
+       return opEnCursoRepository.findByUsuarioIdAndActiva(idUser,true);
     }
 
     @Override

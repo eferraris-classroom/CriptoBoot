@@ -2,6 +2,7 @@ package ar.edu.undef.fie.criptoboot.services;
 
 import ar.edu.undef.fie.criptoboot.entities.Parametro;
 import ar.edu.undef.fie.criptoboot.repositories.ParametroRepository;
+import ar.edu.undef.fie.criptoboot.requests.ParametroRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,12 +17,11 @@ public class ParametroServiceImpl implements ParametroService{
 
     @Override
     public Parametro getParametros(int idUser) {
-        //Cómo busco segun una clave foránea?
-        return null;
+        return parametroRepository.findByUsuarioId(idUser);
     }
 
     @Override
-    public void modificarParametros(Parametro parametro) {
-        //Cómo modifico un campo?
+    public Parametro modificarParametros(Parametro parametro) {
+        return parametroRepository.save(parametro);
     }
 }

@@ -1,77 +1,77 @@
 package ar.edu.undef.fie.criptoboot.representations;
 
 public class CriptomonedaRepresentation {
-    private int orden;
-    private String simbolo;
-    private String nombre;
-    private Double precio;
-    private Double variacion;
-    private Double volumen;
-    private Boolean seguir;
+    private Long id;
+    private String symbol;
+    private String id_cripto;
+    private double current_price;
+    private long market_cap_rank;
+    private double total_volume;
+    private double price_change_percentage24h;
 
-    public CriptomonedaRepresentation(int orden, String simbolo, String nombre, Double precio, Double variacion, Double volumen, Boolean seguir) {
-        this.orden = orden;
-        this.simbolo = simbolo;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.variacion = variacion;
-        this.volumen = volumen;
-        this.seguir = seguir;
+    public CriptomonedaRepresentation(Long id, String symbol, String id_cripto, double current_price, long market_cap_rank, double total_volume, double price_change_percentage24h) {
+        this.id = id;
+        this.symbol = symbol;
+        this.id_cripto = id_cripto;
+        this.current_price = current_price;
+        this.market_cap_rank = market_cap_rank;
+        this.total_volume = total_volume;
+        this.price_change_percentage24h = price_change_percentage24h;
     }
 
-    public int getOrden() {
-        return orden;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrden(int orden) {
-        this.orden = orden;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getSimbolo() {
-        return simbolo;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setSimbolo(String simbolo) {
-        this.simbolo = simbolo;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getId_cripto() {
+        return id_cripto;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setId_cripto(String id_cripto) {
+        this.id_cripto = id_cripto;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public double getCurrent_price() {
+        return current_price;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setCurrent_price(double current_price) {
+        this.current_price = current_price;
     }
 
-    public Double getVariacion() {
-        return variacion;
+    public long getMarket_cap_rank() {
+        return market_cap_rank;
     }
 
-    public void setVariacion(Double variacion) {
-        this.variacion = variacion;
+    public void setMarket_cap_rank(long market_cap_rank) {
+        this.market_cap_rank = market_cap_rank;
     }
 
-    public Double getVolumen() {
-        return volumen;
+    public double getTotal_volume() {
+        return total_volume;
     }
 
-    public void setVolumen(Double volumen) {
-        this.volumen = volumen;
+    public void setTotal_volume(double total_volume) {
+        this.total_volume = total_volume;
     }
 
-    public Boolean getSeguir() {
-        return seguir;
+    public double getPrice_change_percentage24h() {
+        return price_change_percentage24h;
     }
 
-    public void setSeguir(Boolean seguir) {
-        this.seguir = seguir;
+    public void setPrice_change_percentage24h(double price_change_percentage24h) {
+        this.price_change_percentage24h = price_change_percentage24h;
     }
 }
