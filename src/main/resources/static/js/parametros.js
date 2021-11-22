@@ -1,12 +1,10 @@
 $(document).ready(function() {
-    const idUser = 1;
-    localStorage.idUser=idUser;
-    mostrarParametrosActuales(idUser);
+    mostrarParametrosActuales(localStorage.idUser);
     $('#wallet').DataTable();
-    actualizarEmailDelUsuario(idUser);
+    actualizarEmailDelUsuario();
 
 });
-function actualizarEmailDelUsuario(idUser) {
+function actualizarEmailDelUsuario() {
     document.getElementById('txt-email-usuario').outerHTML = localStorage.email;
 }
 

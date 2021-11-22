@@ -2,6 +2,8 @@ package ar.edu.undef.fie.criptoboot.services;
 
 import ar.edu.undef.fie.criptoboot.entities.Usuario;
 import ar.edu.undef.fie.criptoboot.repositories.UsuarioRepository;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
     @Override
-    public Usuario getUsuario(int idUser) {
-        return usuarioRepository.findById(idUser).get();
+    public Usuario getUsuario(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 
     @Override
@@ -33,7 +35,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public Usuario obtenerUsuarioPorCredenciales(Usuario usuario) {
-        //Reveer
+
+        Usuario userEncontrado = usuarioRepository.findByEmail(usuario.getEmail());
+        if (userEncontrado== null) {
+            return null;
+        }
+
+        String passwordHashed = userEncontrado.getPassword();
+
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        if (argon2.verify(passwordHashed, usuario.getPassword())) {
+            return userEncontrado;
+        }
         return null;
     }
 }
+

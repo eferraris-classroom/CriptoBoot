@@ -1,5 +1,6 @@
 package ar.edu.undef.fie.criptoboot.services;
 
+import ar.edu.undef.fie.criptoboot.entities.Usuario;
 import ar.edu.undef.fie.criptoboot.entities.Wallet;
 import ar.edu.undef.fie.criptoboot.repositories.WalletRepository;
 import ar.edu.undef.fie.criptoboot.requests.WalletRequest;
@@ -18,6 +19,16 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public Wallet getWallet(int idUser) {
         return walletRepository.findByUsuarioId(idUser);
+    }
+
+    @Override
+    public void crearWallet(Usuario usuario) {
+        Wallet walletNueva= new Wallet();
+        walletNueva.setUsuario(usuario);
+        walletNueva.setDisponible(0);
+        walletNueva.setBalance(0);
+        walletNueva.setDivisiones_disponible(0);
+        walletRepository.save(walletNueva);
     }
 
     @Override

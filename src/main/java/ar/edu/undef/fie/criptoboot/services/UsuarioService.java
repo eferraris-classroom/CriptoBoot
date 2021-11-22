@@ -5,7 +5,7 @@ import ar.edu.undef.fie.criptoboot.entities.Usuario;
 import java.util.List;
 
 public interface UsuarioService {
-    Usuario getUsuario(int idUser);
+    Usuario getUsuario(String email);
 
     void eliminar(int id);
 

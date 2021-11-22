@@ -1,8 +1,7 @@
 $(document).ready(function() {
-  var idUser=1;
-  actualizarEmailDelUsuario(idUser);
-  actualizarBalance(idUser);
-  cargarOperaciones(idUser);
+  actualizarEmailDelUsuario(localStorage.idUser);
+  actualizarBalance(localStorage.idUser);
+  cargarOperaciones(localStorage.idUser);
   $('#wallet').DataTable();
 
 });

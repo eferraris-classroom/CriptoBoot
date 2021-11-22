@@ -1,9 +1,7 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
-    var idUser=1;
-    actualizarEmailDelUsuario(idUser);
-    console.log(idUser);
-    cargarCriptos(idUser);
+    actualizarEmailDelUsuario(localStorage.idUser);
+    cargarCriptos(localStorage.idUser);
     $('#criptomonedas').DataTable();
 
 });
