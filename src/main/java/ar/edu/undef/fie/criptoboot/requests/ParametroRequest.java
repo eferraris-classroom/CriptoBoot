@@ -8,11 +8,11 @@ public class ParametroRequest {
 
     private long id;
     private Usuario usuario;
-    private double gan_por_op;
-    private double per_por_op;
-    private double variacion_entr_caidas;
+    private float gan_por_op;
+    private float per_por_op;
+    private float variacion_entr_caidas;
 
-    public ParametroRequest(long id, Usuario usuario, double gan_por_op, double per_por_op, double variacion_entr_caidas) {
+    public ParametroRequest(long id, Usuario usuario, float gan_por_op, float per_por_op, float variacion_entr_caidas) {
         this.id = id;
         this.usuario = usuario;
         this.gan_por_op = gan_por_op;
@@ -40,7 +40,7 @@ public class ParametroRequest {
         return gan_por_op;
     }
 
-    public void setGan_por_op(double gan_por_op) {
+    public void setGan_por_op(float gan_por_op) {
         this.gan_por_op = gan_por_op;
     }
 
@@ -48,7 +48,7 @@ public class ParametroRequest {
         return per_por_op;
     }
 
-    public void setPer_por_op(double per_por_op) {
+    public void setPer_por_op(float per_por_op) {
         this.per_por_op = per_por_op;
     }
 
@@ -56,12 +56,12 @@ public class ParametroRequest {
         return variacion_entr_caidas;
     }
 
-    public void setVariacion_entr_caidas(double variacion_entr_caidas) {
+    public void setVariacion_entr_caidas(float variacion_entr_caidas) {
         this.variacion_entr_caidas = variacion_entr_caidas;
     }
 
     public Parametro construct(){
-        Parametro parametro = new Parametro(usuario,gan_por_op,per_por_op,variacion_entr_caidas);
+        Parametro parametro = new Parametro(usuario,(double) gan_por_op,(double) per_por_op,(double) variacion_entr_caidas);
         parametro.setId(id);
         return parametro;
     }

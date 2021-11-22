@@ -25,7 +25,7 @@ public class WalletController {
 
 
     @PutMapping(value = "wallet")
-    public ResponseEntity<WalletRepresentation>  modificarParametros(@RequestBody WalletRequest walletRequest) {
+    public ResponseEntity<WalletRepresentation> modificarParametrosWallet(@RequestBody WalletRequest walletRequest) {
         return ResponseEntity.ok(walletService.modificarWallet(walletRequest.construct()).representation());
 
     }
