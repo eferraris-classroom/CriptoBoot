@@ -36,6 +36,7 @@ public class SesionServiceImpl implements SesionService{
         Sesion sesionActiva = getSesionActiva();
         if (sesionActiva != null){
             sesionActiva.setActiva(false);
+            sesionActiva.setFinSesion(Calendar.getInstance());
             sesionRepository.save(sesionActiva);
         }
 

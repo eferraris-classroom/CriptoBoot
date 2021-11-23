@@ -52,6 +52,8 @@ async function cargarDisponible() {
 
 }
 
+
+
 function getHeaders() {
     return {
         'Accept': 'application/json',
