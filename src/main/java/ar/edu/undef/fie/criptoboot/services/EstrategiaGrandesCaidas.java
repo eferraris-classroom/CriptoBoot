@@ -18,7 +18,6 @@ public class EstrategiaGrandesCaidas implements EstrategiaAnalisis{
             System.out.println("No es recomendable comprar " + criptomoneda.getSymbol() + ".");
             return false;
         }else {
-            System.out.println("Se recomienda comprar " + criptomoneda.getSymbol() + " a USD "+ criptomoneda.getCurrent_price() + ".");
             return true;
         }
     }

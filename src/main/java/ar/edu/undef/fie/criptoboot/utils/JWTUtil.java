@@ -89,13 +89,10 @@ import java.util.Date;
                         .parseClaimsJws(jwt).getBody();
                 return claims.getId();
             }catch (ExpiredJwtException e) {
-                System.out.println(" El token se encuentra vencido ");
                 return null;
             } catch (SignatureException e) {
-                System.out.println(" Error en la firma del token ");
                 return null;
             } catch(Exception e){
-                System.out.println(" Se produjo un error desconocido en la validacion del token ");
                 return null;
             }
         }
