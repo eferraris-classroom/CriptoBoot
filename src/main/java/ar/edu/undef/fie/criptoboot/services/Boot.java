@@ -4,7 +4,6 @@ import ar.edu.undef.fie.criptoboot.entities.*;
 import com.litesoftwares.coingecko.CoinGeckoApiClient;
 import com.litesoftwares.coingecko.domain.Coins.CoinMarkets;
 import com.litesoftwares.coingecko.impl.CoinGeckoApiClientImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,30 +14,28 @@ import java.util.List;
 @Component
 public class Boot {
 
-    @Autowired
-    private CriptomonedaService criptomonedaService;
 
-    @Autowired
-    private CriptoSeguidaService criptoSeguidaService;
-
-    @Autowired
-    private ParametroService parametroService;
-
-    @Autowired
-    private OpEnCursoService opEnCursoService;
-
-    @Autowired
-    private WalletService walletService;
-
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    private SesionService sesionService;
+    private final CriptomonedaService criptomonedaService;
+    private final CriptoSeguidaService criptoSeguidaService;
+    private final ParametroService parametroService;
+    private final OpEnCursoService opEnCursoService;
+    private final WalletService walletService;
+    private final UsuarioService usuarioService;
+    private final SesionService sesionService;
 
     Analisis analisis = new Analisis();
 
     CoinGeckoApiClient client = new CoinGeckoApiClientImpl();
+
+    public Boot(CriptomonedaService criptomonedaService, CriptoSeguidaService criptoSeguidaService, ParametroService parametroService, OpEnCursoService opEnCursoService, WalletService walletService, UsuarioService usuarioService, SesionService sesionService) {
+        this.criptomonedaService = criptomonedaService;
+        this.criptoSeguidaService = criptoSeguidaService;
+        this.parametroService = parametroService;
+        this.opEnCursoService = opEnCursoService;
+        this.walletService = walletService;
+        this.usuarioService = usuarioService;
+        this.sesionService = sesionService;
+    }
 
     @Scheduled(fixedRate = 100000)
     public void Tarea() {

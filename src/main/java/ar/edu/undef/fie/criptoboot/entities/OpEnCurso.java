@@ -11,8 +11,8 @@ public class OpEnCurso {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "op_en_curso_id")
+    @ManyToOne(cascade = CascadeType.MERGE)//TODO VALIDAR EL COMPORTAMIENTO DEL CASQUEDE MERGE (HAY QUE VOLARLO PQ NO ES NECESARIO)
+    @JoinColumn(name = "op_en_curso_id") //Es para que no meta una tabla intermedia, de esta forma se evita hacer un producto cartesiano
     private Usuario usuario;
     private String id_cripto_hist;
     private double cant_criptomoneda;

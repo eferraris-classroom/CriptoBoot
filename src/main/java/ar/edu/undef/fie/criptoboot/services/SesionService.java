@@ -7,4 +7,5 @@ public interface SesionService {
     Sesion getSesionActiva();
     void nuevaSesion(Usuario usuario);
     void cerrarSesion();
+    boolean validarSesion(String token);
 }

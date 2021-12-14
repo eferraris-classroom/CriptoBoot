@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    if(localStorage.token==null){
+        cerrarSesion()
+    }
     mostrarDisponibleDivisiones();
     $('#wallet').DataTable();
     actualizarEmailDelUsuario();
@@ -8,12 +11,19 @@ function actualizarEmailDelUsuario() {
     document.getElementById('txt-email-usuario').outerHTML = localStorage.email;
 }
 
+function validarRespuesta(request){
+    if(request.status==401){
+        cerrarSesion()
+    }
+}
+
 
 async function mostrarDisponibleDivisiones() {
     const request = await fetch('usuarios/'+localStorage.idUser+'/wallet', {
         method: 'GET',
         headers: getHeaders()
     });
+    validarRespuesta(request);
     const wallet = await request.json();
     document.getElementById('txt-disponible-cargarDisponible').outerHTML = wallet.disponible;
     document.getElementById('txt-cantDivisiones-cargarDisponible').outerHTML = wallet.divisiones_disponible;
@@ -25,6 +35,7 @@ async function cargarDisponible() {
         method: 'GET',
         headers: getHeaders()
     });
+    validarRespuesta(requestCD);
     const walletCD = await requestCD.json();
     let datos = {};
     datos.id=walletCD.id;
@@ -41,18 +52,27 @@ async function cargarDisponible() {
 
     const request = await fetch('wallet', {
         method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers: getHeaders(),
         body: JSON.stringify(datos)
     });
+    validarRespuesta(request);
     alert("El dinero se cargó correctamente");
     window.location.href = 'cargarDisponible.html'
 
 }
+function cerrarSesion(){
+    localStorage.clear()
+    window.location.href = 'index.html'
+}
 
-
+async function cerrarTodasSesiones(){
+    const request = await fetch('logout', {
+        method: 'GET',
+        headers: getHeaders()
+    });
+    localStorage.clear()
+    window.location.href = 'index.html'
+}
 
 function getHeaders() {
     return {
@@ -60,11 +80,5 @@ function getHeaders() {
         'Content-Type': 'application/json',
         'Authorization': localStorage.token
     };
-
-
-
-
-
-
 
 }

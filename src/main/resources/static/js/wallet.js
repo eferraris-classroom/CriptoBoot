@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  if(localStorage.token==null){
+    cerrarSesion()
+  }
   actualizarEmailDelUsuario(localStorage.idUser);
   actualizarBalance(localStorage.idUser);
   cargarOperaciones(localStorage.idUser);
@@ -7,20 +10,38 @@ $(document).ready(function() {
 });
 function actualizarEmailDelUsuario(idUser) {
   document.getElementById('txt-email-usuario').outerHTML = localStorage.email;
-  //idUser=localStorage.id;
 }
 
+function cerrarSesion(){
+  localStorage.clear()
+  window.location.href = 'index.html'
+}
+
+async function cerrarTodasSesiones(){
+  const request = await fetch('logout', {
+    method: 'GET',
+    headers: getHeaders()
+  });
+  localStorage.clear()
+  window.location.href = 'index.html'
+}
+
+
+function validarRespuesta(request){
+  if(request.status==401){
+    cerrarSesion()
+  }
+}
 
 async function actualizarBalance(idUser) {
   const request = await fetch('/usuarios/'+idUser+'/wallet', {
     method: 'GET',
     headers: getHeaders()
   });
+  validarRespuesta(request);
   const wallet = await request.json();
   document.getElementById('txt-balance-wallet').outerHTML = parseFloat(wallet.balance).toFixed(2);
   document.getElementById('txt-disponible-wallet').outerHTML = parseFloat(wallet.disponible).toFixed(2);
-
-
 
 }
 
@@ -29,6 +50,7 @@ async function cargarOperaciones(idUser) {
     method: 'GET',
     headers: getHeaders()
   });
+  validarRespuesta(request);
   const operaciones = await request.json();
 
   let sumaBalances = 0.0;

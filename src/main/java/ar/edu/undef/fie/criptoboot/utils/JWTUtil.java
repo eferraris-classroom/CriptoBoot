@@ -1,9 +1,6 @@
 package ar.edu.undef.fie.criptoboot.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,10 +36,6 @@ import java.util.Date;
          * @return
          */
         public String create(String id, String subject) {
-            System.out.println(id);
-            System.out.println(subject);
-
-
             // The JWT signature algorithm used to sign the token
             SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -91,11 +84,26 @@ import java.util.Date;
         public String getKey(String jwt) {
             // This line will throw an exception if it is not a signed JWS (as
             // expected)
-            Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(key))
-                    .parseClaimsJws(jwt).getBody();
-
-            return claims.getId();
+            try {
+                Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(key))
+                        .parseClaimsJws(jwt).getBody();
+                return claims.getId();
+            }catch (ExpiredJwtException e) {
+                System.out.println(" El token se encuentra vencido ");
+                return null;
+            } catch (SignatureException e) {
+                System.out.println(" Error en la firma del token ");
+                return null;
+            } catch(Exception e){
+                System.out.println(" Se produjo un error desconocido en la validacion del token ");
+                return null;
+            }
         }
+
+
+
+
+
     }
 
 

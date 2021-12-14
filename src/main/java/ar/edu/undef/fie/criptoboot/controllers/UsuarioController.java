@@ -3,13 +3,10 @@ package ar.edu.undef.fie.criptoboot.controllers;
 import ar.edu.undef.fie.criptoboot.entities.Usuario;
 import ar.edu.undef.fie.criptoboot.representations.UsuarioRepresentation;
 import ar.edu.undef.fie.criptoboot.requests.UsuarioRequest;
-import ar.edu.undef.fie.criptoboot.services.CriptoSeguidaService;
-import ar.edu.undef.fie.criptoboot.services.ParametroService;
-import ar.edu.undef.fie.criptoboot.services.UsuarioService;
-import ar.edu.undef.fie.criptoboot.services.WalletService;
+import ar.edu.undef.fie.criptoboot.services.*;
+import ar.edu.undef.fie.criptoboot.utils.JWTUtil;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
-import javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +18,25 @@ public class UsuarioController {
     private final WalletService walletService;
     private final ParametroService parametroService;
     private final CriptoSeguidaService criptoSeguidaService;
+    private final SesionService sesionService;
 
-    public UsuarioController(UsuarioService usuarioService, WalletService walletService, ParametroService parametroService, CriptoSeguidaService criptoSeguidaService) {
+    public UsuarioController(UsuarioService usuarioService, WalletService walletService, ParametroService parametroService, CriptoSeguidaService criptoSeguidaService, SesionService sesionService) {
         this.usuarioService = usuarioService;
         this.walletService = walletService;
         this.parametroService = parametroService;
         this.criptoSeguidaService = criptoSeguidaService;
+
+        this.sesionService = sesionService;
     }
 
     @GetMapping(value = "usuarios/{email}")
-    public ResponseEntity<UsuarioRepresentation> getUsuarioController(@PathVariable String email) {
-        return ResponseEntity.ok(usuarioService.getUsuario(email).representation());
+    public ResponseEntity<UsuarioRepresentation> getUsuarioController(@RequestHeader(value="Authorization") String token,@PathVariable String email) {
+        if (!sesionService.validarSesion(token)) {
+            return new ResponseEntity<UsuarioRepresentation>(HttpStatus.UNAUTHORIZED);
+        }else{
+            return ResponseEntity.ok(usuarioService.getUsuario(email).representation());
+        }
+
     }
 
     @PostMapping(value = "usuarios")
@@ -52,10 +57,16 @@ public class UsuarioController {
 
 
     @DeleteMapping(value = "usuarios/{idUser}")
-    public  ResponseEntity<String> eliminarUsuario(@PathVariable int idUser) throws NotFoundException {
-        usuarioService.eliminar(idUser);
-        return new ResponseEntity<>(
-                "Usuario eliminado con éxito",
-                HttpStatus.OK);
+    public  ResponseEntity<String> eliminarUsuario(@RequestHeader(value="Authorization") String token, @PathVariable int idUser)  {
+        if (!sesionService.validarSesion(token)) {
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }else{
+            usuarioService.eliminar(idUser);
+            return new ResponseEntity<>(
+                    "Usuario eliminado con éxito",
+                    HttpStatus.OK);
+        }
+
+
     }
 }

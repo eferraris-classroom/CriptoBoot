@@ -3,6 +3,7 @@ package ar.edu.undef.fie.criptoboot.services;
 import ar.edu.undef.fie.criptoboot.entities.Sesion;
 import ar.edu.undef.fie.criptoboot.entities.Usuario;
 import ar.edu.undef.fie.criptoboot.repositories.SesionRepository;
+import ar.edu.undef.fie.criptoboot.utils.JWTUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -11,9 +12,11 @@ import java.util.Calendar;
 public class SesionServiceImpl implements SesionService{
 
     private final SesionRepository sesionRepository;
+    private final JWTUtil jwtUtil;
 
-    public SesionServiceImpl(SesionRepository sesionRepository) {
+    public SesionServiceImpl(SesionRepository sesionRepository, JWTUtil jwtUtil) {
         this.sesionRepository = sesionRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -40,6 +43,19 @@ public class SesionServiceImpl implements SesionService{
             sesionRepository.save(sesionActiva);
         }
 
+    }
+
+    @Override
+    public boolean validarSesion(String token) {
+            String usuarioId = jwtUtil.getKey(token);
+            if (usuarioId == null){
+                return false;
+            }else{
+                int idInt=Integer.parseInt(usuarioId);
+                if (getSesionActiva().getUsuario().getId()==idInt) {
+                    return true;
+                }else return false;
+            }
     }
 
 }

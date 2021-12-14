@@ -1,10 +1,34 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
+    if(localStorage.token==null){
+        cerrarSesion()
+    }
     actualizarEmailDelUsuario(localStorage.idUser);
     cargarCriptos(localStorage.idUser);
     $('#criptomonedas').DataTable();
 
 });
+
+function cerrarSesion(){
+    localStorage.clear()
+    window.location.href = 'index.html'
+}
+
+async function cerrarTodasSesiones(){
+    const request = await fetch('logout', {
+        method: 'GET',
+        headers: getHeaders()
+    });
+    localStorage.clear()
+    window.location.href = 'index.html'
+}
+
+
+function validarRespuesta(request){
+    if(request.status==401){
+        cerrarSesion()
+    }
+}
 
 function actualizarEmailDelUsuario(idUser) {
     document.getElementById('txt-email-usuario').outerHTML = localStorage.email;
@@ -17,12 +41,13 @@ async function cargarCriptos(idUser) {
         method: 'GET',
         headers: getHeaders()
     });
+    validarRespuesta(request);
     const criptomonedas = await request.json();
-
     const request2 = await fetch('usuarios/'+localStorage.idUser+'/criptoSeguidas', {
         method: 'GET',
         headers: getHeaders()
     });
+    validarRespuesta(request2);
     const criptoSeguidas = await request2.json();
     let criptoSeguidasLista=[];
     let usuario = {};
@@ -69,11 +94,9 @@ function getHeaders() {
 async function dejarDeSeguirCripto(criptoSegui) {
     const request = await fetch('/criptoSeguidas/' + criptoSegui.id, {
         method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+        headers: getHeaders()
     });
+    validarRespuesta(request);
     console.log("sale del request");
     console.log(request);
     location.reload()
@@ -82,12 +105,10 @@ async function dejarDeSeguirCripto(criptoSegui) {
 async function seguirCripto(datos) {
     const request = await fetch('criptoSeguidas', {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers: getHeaders(),
         body: JSON.stringify(datos)
     });
+    validarRespuesta(request);
     console.log("sale del request");
     console.log(request);
     location.reload()

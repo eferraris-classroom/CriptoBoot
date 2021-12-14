@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    if(localStorage.token==null){
+        cerrarSesion()
+    }
     mostrarParametrosActuales(localStorage.idUser);
     $('#wallet').DataTable();
     actualizarEmailDelUsuario();
@@ -8,12 +11,28 @@ function actualizarEmailDelUsuario() {
     document.getElementById('txt-email-usuario').outerHTML = localStorage.email;
 }
 
+function validarRespuesta(request){
+    if(request.status==401){
+        cerrarSesion()
+    }
+}
+
+async function cerrarTodasSesiones(){
+    const request = await fetch('logout', {
+        method: 'GET',
+        headers: getHeaders()
+    });
+    localStorage.clear()
+    window.location.href = 'index.html'
+}
+
 
 async function mostrarParametrosActuales(idUser) {
     const request = await fetch('usuarios/'+idUser+'/parametros', {
         method: 'GET',
         headers: getHeaders()
     });
+    validarRespuesta(request);
     const parametros = await request.json();
     document.getElementById('txt-ganPorOp-param').outerHTML = parseFloat(parametros.gan_por_op).toFixed(4);
     document.getElementById('txt-perPorOp-param').outerHTML = parseFloat(parametros.per_por_op).toFixed(4);
@@ -26,6 +45,7 @@ async function modificarParametros() {
         method: 'GET',
         headers: getHeaders()
     });
+    validarRespuesta(requestParam);
     const parametros2 = await requestParam.json();
     let datos = {};
     datos.id=parametros2.id;
@@ -42,16 +62,19 @@ async function modificarParametros() {
 
     const request = await fetch('parametros', {
         method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers: getHeaders(),
         body: JSON.stringify(datos)
     });
+    validarRespuesta(request);
     console.log(request);
     alert("Los parametros se modificaron correctamente");
     window.location.href = 'parametros.html'
 
+}
+
+function cerrarSesion(){
+    localStorage.clear()
+    window.location.href = 'index.html'
 }
 
 function getHeaders() {
@@ -60,11 +83,5 @@ function getHeaders() {
         'Content-Type': 'application/json',
         'Authorization': localStorage.token
     };
-
-
-
-
-
-
 
 }
